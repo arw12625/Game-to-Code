@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="blockly/trunk/demos/blockly_compressed.js"></script>
+		<script type="text/javascript" src="blockly/trunk/generators/javascript.js"></script>
+		<script type="text/javascript" src="blockly/trunk/generators/javascript/control.js"></script>
+		<script type="text/javascript" src="blockly/trunk/generators/javascript/text.js"></script>
+		<script type="text/javascript" src="blockly/trunk/language/en/_messages.js"></script>
+		<script type="text/javascript" src="blockly/trunk/language/common/control.js"></script>
+		<script type="text/javascript" src="blockly/trunk/language/common/text.js"></script>
+		<script>
+			function init() {
+				Blockly.inject(document.body, {path: 'blockly/trunk/'});
+				// Let the top-level application know that Blockly is ready.
+				window.parent.blocklyLoaded(Blockly);
+			  }
+		</script>
+	</head>
+	<body onload="init()">
+	</body>
+</html>

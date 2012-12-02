@@ -2,9 +2,32 @@
 	<head>
 		<title>Game to Code</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="runtime.css">
+		<script type="text/javascript" src="runtime.js"></script>
 	</head>
 	
 	<body>
-		<div id="filebar"></div>
+		<div id="container">
+		<ul id="filebar">
+			<li><a href="#">File</a></li>
+			<li><a href="#">Edit</a></li>
+			<li><a href="#" onclick="runcode()">Run</a></li>
+			<li><a href="#">Help</a></li>
+		</ul>
+		<iframe id="level" src="computer_level.html"></iframe>
+		<script>
+			function blocklyLoaded(blockly) {
+				// Called once Blockly is fully loaded.
+				window.Blockly = blockly;
+			}
+			function runcode() {
+				alert("HEY");
+				var code = Blockly.Generator.workspaceToCode('JavaScript');
+				alert("HEY");
+				alert(code);
+			}
+		</script>
+        <iframe id="code" src="frame.html"></iframe>
+		</div>
 	</body>
 </html>

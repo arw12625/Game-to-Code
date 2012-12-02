@@ -1,0 +1,42 @@
+#container
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:80%;
+	height:90%;
+}
+#filebar
+{
+	background-color:#22aa44;
+	list-style-type:none;
+	margin:4px;
+	padding:0;
+	overflow:hidden;
+}
+#filebar > li
+{
+	display:inline;
+}
+#filebar > li > a:link, #filebar > li > a:visited
+{
+	font-size:24px;
+	color:#000000;
+	text-align:center;
+	padding:4px 12px 4px 12px;
+}
+#filebar > li > a:hover, #filebar > li > a:active
+{
+	background-color:#44cc66;
+}
+#level
+{
+	width:30%;
+	height:90%;
+    overflow: hidden;
+}
+#code
+{
+	width:60%;
+	height:90%;
+    overflow: hidden;
+}
