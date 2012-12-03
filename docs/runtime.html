@@ -14,20 +14,18 @@
 			<li><a href="#" onclick="runcode()">Run</a></li>
 			<li><a href="#">Help</a></li>
 		</ul>
-		<iframe id="level" src="computer_level.html"></iframe>
 		<script>
 			function blocklyLoaded(blockly) {
 				// Called once Blockly is fully loaded.
 				window.Blockly = blockly;
 			}
-			function runcode() {
-				alert("HEY");
-				var code = Blockly.Generator.workspaceToCode('JavaScript');
-				alert("HEY");
-				alert(code);
-			}
 		</script>
-        <iframe id="code" src="frame.html"></iframe>
+		<table width="100%" height="100%">
+		<tr>
+		<td width="400"><iframe id="level" src="computer_level.html"></iframe></td>
+        <td><iframe id="code" src="frame.html"></iframe></td>
+		</tr>
+		<table>
 		</div>
 	</body>
 </html>
