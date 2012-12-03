@@ -3,29 +3,40 @@
 		<title>Game to Code</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="stylesheet" type="text/css" href="runtime.css">
+		<script type="text/javascript" src="nav.js"></script>
 		<script type="text/javascript" src="runtime.js"></script>
 	</head>
 	
 	<body>
 		<div id="container">
-		<ul id="filebar">
-			<li><a href="#">File</a></li>
-			<li><a href="#">Edit</a></li>
-			<li><a href="#" onclick="runcode()">Run</a></li>
-			<li><a href="#">Help</a></li>
-		</ul>
-		<script>
-			function blocklyLoaded(blockly) {
-				// Called once Blockly is fully loaded.
-				window.Blockly = blockly;
-			}
-		</script>
-		<table width="100%" height="100%">
-		<tr>
-		<td width="400"><iframe id="level" src="computer_level.html"></iframe></td>
-        <td><iframe id="code" src="frame.html"></iframe></td>
-		</tr>
-		<table>
+			<div id="filebarwrapper">
+				<ul id="filebar">
+					<li><a href="#">File</a>
+					<ul>
+					<li><a href="#" onclick="loadlevelforreal('computer')">computer</a></li>
+					<li><a href="#">HEYO</a></li>
+					<li><a href="#">HEYO</a></li>
+					</ul>
+					</li>
+					<li><a href="#" onclick="draw()">Edit</a></li>
+					<li><a href="#" onclick="runcode()">Run</a></li>
+					<li><a href="#" onclick="showhelp()">Help</a></li>
+				</ul>
+			</div>
+			<script>
+				function blocklyLoaded(blockly) {
+					// Called once Blockly is fully loaded.
+					window.Blockly = blockly;
+				}
+			</script>
+			<table width="100%" height="100%">
+				<tr>
+					<td width="400">
+						<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svggame"></svg>
+					</td>
+					<td><iframe id="code" src="frame.html"></iframe></td>
+				</tr>
+			<table>
 		</div>
 	</body>
 </html>

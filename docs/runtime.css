@@ -5,30 +5,56 @@
 	width:80%;
 	height:90%;
 }
+#filebarwrapper
+{
+	margin:4px 0 0 2px;
+	background-color:#22aa44;
+}
 #filebar
 {
-	background-color:#22aa44;
-	list-style-type:none;
-	margin:4px;
+	list-style:none;
 	padding:0;
-	overflow:hidden;
+	position: relative;
+	display: inline-table;
 }
-#filebar > li
-{
-	display:inline;
+#filebar:after {
+	content: ""; clear: both; display: block;
 }
-#filebar > li > a:link, #filebar > li > a:visited
+
+#filebar  ul {
+	display: none;
+	list-style:none;
+	position: absolute;
+	top: 100%;
+	background-color:#22aa44;
+}
+#filebar ul li {
+	float: none; 
+	border-top: 1px solid #000000;
+	position: relative;
+	padding:4px 0 4px 0;
+}
+
+#filebar li {
+	float: left;
+}
+#filebar li:hover > ul {
+	display: block;
+}
+#filebar a:link, #filebar a:visited
 {
 	font-size:24px;
 	color:#000000;
 	text-align:center;
 	padding:4px 12px 4px 12px;
 }
-#filebar > li > a:hover, #filebar > li > a:active
+#filebar  a:hover, #filebar  a:active
 {
 	background-color:#44cc66;
 }
-#level
+
+
+#svggame
 {
     height: 100%;
     width: 100%;
