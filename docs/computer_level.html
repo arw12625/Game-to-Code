@@ -1,5 +1,49 @@
 <html>
-<body>
-<h1 style="color:#ffffff;">HEIELE</h1>
-</body>
-<html>
+	<head>
+		<title>Game to Code</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="runtime.css">
+		<script type="text/javascript" src="nav.js"></script>
+		<script type="text/javascript" src="computer.js"></script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<div id="overlay">
+			<h1>Introduction to Logic</h1>
+			<p>In this session will analyze logic through the analogy of a boxer fighting a skilled opponent in the ring.
+			Just like in a real match, you must anticipate the opponent's moves and respond to them correctly. The process
+			of transforming conditions into decisions is called logic.</p>
+			<button onclick="hidehelp()">Hide</button>
+			</div>
+			<div id="filebarwrapper">
+				<ul id="filebar">
+					<li><a href="#">File</a>
+					<ul>
+					<li><a href="#" onclick="loadlevelforreal('computer')">computer</a></li>
+					<li><a href="#">HEYO</a></li>
+					<li><a href="#">HEYO</a></li>
+					</ul>
+					</li>
+					<li><a href="#" onclick="draw()">Edit</a></li>
+					<li><a href="#" onclick="runcode()">Run</a></li>
+					<li><a href="#" onclick="showhelp()">Help</a></li>
+				</ul>
+			</div>
+			<script>
+				function blocklyLoaded(blockly) {
+					// Called once Blockly is fully loaded.
+					window.Blockly = blockly;
+				}
+			</script>
+			<table width="100%" height="100%">
+				<tr>
+					<td width="500">
+						<canvas id="canvas" width="500" height="580"></canvas>
+					</td>
+					<td><iframe id="code" src="frame.html"></iframe></td>
+				</tr>
+			<table>
+		</div>
+	</body>
+</html>

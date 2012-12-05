@@ -2,5 +2,5 @@ function loadintro(name) {
 	document.location = name + '.html';
 }
 function loadlevel(name) {
-	document.location = 'runtime.html';
+	document.location = name + '_level.html';
 }
