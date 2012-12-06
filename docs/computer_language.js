@@ -1,68 +1,80 @@
+// This block controls the predicate isBlocking
 Blockly.Language.gtc_isblocking={
-	category:"Game-to-Code",
-	init:function(){
-		this.setColour(160);
-		this.setOutput(true,Boolean);
-		this.appendDummyInput()
-			.appendTitle('Is Blocking')
-			.appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
-		this.setInputsInline(true);
-		this.setTooltip("Tells if your opponent will block in the specified location");
-	}
+    category:"Game-to-Code",
+    // 
+    init:function(){
+        this.setColour(160);
+        this.setOutput(true,Boolean);
+        this.appendDummyInput()
+            .appendTitle('Is Blocking')
+            .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
+        this.setInputsInline(true);
+        this.setTooltip("Tells if your opponent will block in the specified location");
+    }
 };
+// This block sets the operators
 Blockly.Language.gtc_isblocking.OPERATORS =
     [['Left', 'left'],
      ['Right', 'right']];
-
+     
+     
+// This creates the isPunching predicate blocks
 Blockly.Language.gtc_ispunching={
-	category:"Game-to-Code",
-	init:function(){
-		this.setColour(160);
-		this.setOutput(true,Boolean);
-		this.appendDummyInput()
-			.appendTitle('Is Punching')
-			.appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
-		this.setInputsInline(true);
-		this.setTooltip("Tells if your opponent will punch in the specified location");
-	}
+    category:"Game-to-Code",
+    // 
+    init:function(){
+        this.setColour(160);
+        this.setOutput(true,Boolean);
+        this.appendDummyInput()
+            .appendTitle('Is Punching')
+            .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
+        this.setInputsInline(true);
+        this.setTooltip("Tells if your opponent will punch in the specified location");
+    }
 };
 Blockly.Language.gtc_ispunching.OPERATORS =
     [['Left', 'left'],
      ['Right', 'right']];
-
+     
+     
+// This creates the Block action blocks
 Blockly.Language.gtc_block={
-	category:"Game-to-Code",
-	init:function(){
-		this.setColour(160);
-		this.appendDummyInput()
-			.appendTitle('Block')
-			.appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
-		this.setPreviousStatement(true);
-		this.setNextStatement(true);
-		this.setTooltip("Block your opponent in the specified location");
-	}
+    category:"Game-to-Code",
+    init:function(){
+        this.setColour(160);
+        this.appendDummyInput()
+            .appendTitle('Block')
+            .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setTooltip("Block your opponent in the specified location");
+    }
 };
 Blockly.Language.gtc_block.OPERATORS =
     [['Left', 'left'],
      ['Right', 'right']];
-	 
+     
+     
+// This creates the Punch action blocks
 Blockly.Language.gtc_punch={
-	category:"Game-to-Code",
-	init:function(){
-		this.setColour(160);
-		this.appendDummyInput()
-			.appendTitle('Punch')
-			.appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
-		this.setPreviousStatement(true);
-		this.setNextStatement(true);
-		this.setTooltip("Punch your opponent in the specified location");
-	}
+    category:"Game-to-Code",
+    init:function(){
+        this.setColour(160);
+        this.appendDummyInput()
+            .appendTitle('Punch')
+            .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'LOC');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setTooltip("Punch your opponent in the specified location");
+    }
 };
 Blockly.Language.gtc_punch.OPERATORS =
     [['Left', 'left'],
      ['Right', 'right']];
-	 
-	 Blockly.Language.controls_if = {
+     
+     
+// This creates the If control structure block
+Blockly.Language.controls_if = {
   // If/elseif/else condition.
   category: Blockly.LANG_CATEGORY_CONTROLS,
   helpUrl: Blockly.LANG_CONTROLS_IF_HELPURL,
@@ -214,7 +226,6 @@ Blockly.Language.gtc_punch.OPERATORS =
     }
   }
 };
-
 Blockly.Language.controls_if_if = {
   // If condition.
   init: function() {
@@ -226,7 +237,6 @@ Blockly.Language.controls_if_if = {
     this.contextMenu = false;
   }
 };
-
 Blockly.Language.controls_if_elseif = {
   // Else-If condition.
   init: function() {
@@ -239,7 +249,6 @@ Blockly.Language.controls_if_elseif = {
     this.contextMenu = false;
   }
 };
-
 Blockly.Language.controls_if_else = {
   // Else condition.
   init: function() {
