@@ -1,6 +1,9 @@
 function loadintro(name) {
-	document.location = name + '.html';
+	document.location = name + '/intro.html';
 }
-function loadlevel(name) {
-	document.location = name + '_level.html';
+function loadlevel() {
+	document.location = 'level.html';
+}
+function loadhome() {
+	document.location = '../home.html';
 }

@@ -54,8 +54,8 @@
 	background-color:#44cc66;
 }
 
-#overlay {
-	
+#overlay
+{
 	position:absolute;
 	display:block;
 	z-index:1000;
@@ -64,9 +64,23 @@
 	width:60%;
 	height:100%;
 	background-color:#000000;
-	text-align:center;
 	color:#22aa44;
+	padding:10px;
 }
+#hide
+{
+	text-align:center;
+}
+#hide button
+{
+	font-size:24;
+	background-color:#22aa44;
+    border-radius: 12px;
+    border: 1px solid #000;
+	width:256px;
+	height:64px;
+}
+
 #canvas
 {
 	border-style:solid;

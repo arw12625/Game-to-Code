@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>Game to Code</title>
+		<link rel="stylesheet" type="text/css" href="../style.css">
+		<link rel="stylesheet" type="text/css" href="../runtime.css">
+		<script type="text/javascript" src="../nav.js"></script>
+		<script type="text/javascript" src="level.js"></script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<div id="overlay">
+			<h1 class="title">Introduction to Logic</h1>
+			<br />
+			<p>&nbsp&nbsp&nbsp&nbsp&nbsp In this exercise we will analyze the use how a computer
+			processes commands. You are in charge of a farm and need to tell your robot how to 
+			manage your crops. The robot can only understand simple commands or processes.
+			The robot will execute tasks in the order it is given them. If you having trouble,
+			try imagining how you would tell a young child how to grow a plant. Click hide below
+			to proceed.</p>
+			<br />
+			<div id="hide"><button onclick="hidehelp()">Hide</button></div>
+			</div>
+			<div id="filebarwrapper">
+				<ul id="filebar">
+					<li><a href="#">File</a>
+					<ul>
+					<li><a href="#">Load</a></li>
+					<li><a href="#">Save</a></li>
+					</ul>
+					</li>
+					<li><a href="#" onclick="runcode()">Run</a></li>
+					<li><a href="#" onclick="showhelp()">Help</a></li>
+					<li><a href="#" onclick="loadhome()">Home</a></li>
+				</ul>
+			</div>
+			<script>
+				function blocklyLoaded(blockly) {
+					// Called once Blockly is fully loaded.
+					window.Blockly = blockly;
+				}
+			</script>
+			<table width="100%" height="100%">
+				<tr>
+					<td width="500">
+						<canvas id="canvas" width="500" height="580"></canvas>
+					</td>
+					<td><iframe id="code" src="frame.html"></iframe></td>
+				</tr>
+			<table>
+		</div>
+	</body>
+</html>

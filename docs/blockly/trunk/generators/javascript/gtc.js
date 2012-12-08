@@ -24,6 +24,42 @@ Blockly.JavaScript.gtc_block = function() {
   return code;
 };
 
+Blockly.JavaScript.gtc_clearfield = function() {
+  var code = "state = 0;\n";
+  return code;
+};
+
+Blockly.JavaScript.gtc_plantfield = function() {
+  var code = "state = 1;\n";
+  return code;
+};
+
+Blockly.JavaScript.gtc_waterfield = function() {
+  var code = "state = 2;\n";
+  return code;
+};
+
+Blockly.JavaScript.gtc_move = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = (loc == 'left' ? "position--" : "position++")+ ";\n";
+  return code;
+};
+
+Blockly.JavaScript.gtc_isasteroid = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "";
+  if(loc == 'left') {
+	code = "position > 0 && asteroids[position - 1] == 6";
+  }
+  if(loc == 'right') {
+	code = "position < asteroids.length - 1 && asteroids[position + 1] == 6";
+  }
+  if(loc == 'forward') {
+	code = "asteroids[position] == 6";
+  }
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript.controls_if = function() {
   // If/elseif/else condition.
   var n = 0;
