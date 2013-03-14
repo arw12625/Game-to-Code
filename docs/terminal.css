@@ -2,13 +2,21 @@ body
 {
 	background-color:#111111;
 }
-a, p, h1
+h1
 {
-	color:#22aa44;
+	color:#afafb0;
+}
+a
+{
+	color:#0000b7;
+}
+p, a , h1
+{
 	font-family:courier;
 }
 p
 {
+	color:#22aa44;
 	text-indent:40px;
 }
 ul
@@ -18,11 +26,11 @@ ul
 }
 a:visited, a:link
 {
-	color:#009010;
+	color:#415ec1;
 }
 a:active, a:hover
 {
-	color:#55da77;
+	color:#08f7ff;
 }
 .dir
 {
