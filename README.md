@@ -9,7 +9,7 @@ This game was designed by Farragut High School TSA, to ease the difficulty of le
 
 Licensing
 
-Our license with this game is the WTFPL that can be found here: http://www.wtfpl.net/about/
+**TODO**
 
 Bugs
 
