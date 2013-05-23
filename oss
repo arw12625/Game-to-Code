@@ -1,2 +1,142 @@
 #!/bin/bash
 
+THISDIR=$PWD
+if [[ ! -f "$THISDIR/oss" ]]; then
+    THISDIR=${0%/oss}
+    cd $THISDIR
+fi
+SRC=$THISDIR/src
+BASHDIR=$THISDIR/bash-stuff
+TEMPLATE=$BASHDIR/template.bash
+STATIC=$SRC/static-listing.txt
+EDITOR="emacsclient -t" # Let's face it, you should be using this anyways
+
+## lsr
+# lsr directory
+# prints the results of ls -R in a nicer way
+# See also: https://github.com/player1537/bash-stuff/blob/master/ls-R.bash
+function lsr() {
+    ls -R "$@" | sed -e '
+# Delete empty lines
+/^[ \t]*$/d;
+# If the line is a directory, store to the hold buffer
+/^[^ \t].*:$/ { 
+  s/^\.\([a-z]*\):$/\1/; 
+  s/^\.\///; s/:$/\//; 
+  h; 
+  d;
+}; 
+# Grab the hold buffer (a path)
+G; 
+# Join it with the current filename
+s/^\(.*\)\n\(.*\)/\2\1/
+'
+}
+
+## cleandirs
+# cleandirs directory
+# runs clean in every directory and subdirectory in directory
+function cleandirs() {
+    local dir
+    dir=$1
+    (
+	cd $dir
+	clean
+	for dir in *; do
+	    if [[ -d $dir ]]; then
+		cleandirs "$dir"
+	    fi
+	done
+    )
+}
+
+## clean
+# clean 
+# removes all backup files /*~$/
+function clean() {
+    local file
+    for file in *~; do
+	if [[ -a $file ]]; then
+	    rm *~
+	    return
+	fi
+    done
+}
+
+## install
+# source oss install
+# adds oss to your path
+function install() {
+    export PATH=$PATH:$THISDIR
+}
+
+## compile
+# oss compile
+# compiles all the code in the source directory
+function compile() {
+    local file line outputfile outdir
+    outdir=$THISDIR/output
+    rm -rf $outdir
+    mkdir -p $outdir
+    cd $SRC
+    for file in $(lsr $SRC | egrep "\.tpl$"); do
+	read line <$file
+	if [[ $line =~ \#!template ]]; then
+	    outputfile=${line#\#!template }
+	    echo Compiling "$file" to "$outputfile"
+	    OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
+	fi
+    done
+    while true; do
+	read file || break
+	if [[ -n $file ]]; then
+	    cp $SRC/$file $outdir/$file -r
+	fi
+    done < $STATIC
+}
+
+## template
+# oss template <template.bash's args>
+# proxies to template
+function template() {
+    cd $SRC
+    exec $TEMPLATE "$@"
+}
+
+## edit
+# oss edit {t=>template,o=>oss,l=>output}
+# opens one of these files with $EDITOR
+function edit() {
+    local whatdo file
+    whatdo=$1
+    if [[ -n $2 ]]; then
+	#file=$(find $THISDIR/output/ -name "$2*")
+	#echo "$file"
+	file=$2*
+    fi
+    if [[ -a $whatdo ]]; then
+	exec $EDITOR $whatdo
+    fi
+    case $whatdo in
+	t*) edit $TEMPLATE;;
+	o*) edit $THISDIR/oss;;
+	l*) edit $THISDIR/output/$file;;
+	*) echo "No such file or shortcut, '$whatdo'";;
+    esac
+}
+
+function main() {
+    local whatdo
+    whatdo=$1; shift
+    case x$whatdo in
+	xinstall|xi) install "$@";;
+	xcompile|xc) compile "$@";;
+	xtemplate|xt) template "$@";;
+	xedit|xe) edit "$@";;
+	xrunthis|xr) eval "$@";;
+	xclean|xcl) cleandirs $SRC;;
+	x) echo "Pass a command: {install,compile}";;
+    esac
+}
+
+main "$@"
