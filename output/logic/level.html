@@ -1,0 +1,427 @@
+
+
+
+
+
+
+
+
+<html>
+<head>
+<title>Game to Code</title>
+<style type="text/css">
+* 
+{
+	padding:0;
+	margin:0;
+}
+.title
+{
+	text-align:center;
+	text-decoration:underline;
+}
+.center
+{
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+#content
+{
+	width:100%;
+	height:100%;
+	border-width:0;
+}body
+{
+	background-color:#111111;
+}
+h1
+{
+	color:#afafb0;
+}
+a
+{
+	color:#0000b7;
+}
+p, a , h1
+{
+	font-family:courier;
+}
+p
+{
+	color:#22aa44;
+	text-indent:40px;
+}
+ul
+{
+	list-style:none;
+	text-indent:40px;
+}
+a:visited, a:link
+{
+	color:#415ec1;
+}
+a:active, a:hover
+{
+	color:#08f7ff;
+}
+.dir
+{
+	text-indent:0;
+}
+.par_image
+{
+	float:left;
+	color:#22aa44;
+	margin:5px 10px 5px 5px;
+}
+#selection
+{
+	width:50%;
+	margin-left:auto;
+	margin-right:auto;
+	border-style:groove;
+	border-width:6px;
+	border-color:#777777;
+}
+#text
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:60%;
+	
+}
+#level_button
+{
+	font-size:24;
+	background-color:#22aa44;
+    border-radius: 12px;
+    border: 1px solid #000;
+	width:256px;
+	height:64px;
+}
+#level_button:active, #level_button:hover
+{
+	background-color:#55da77;
+}</style>
+ <script type="text/javascript">
+var boxer = new Image();
+boxer.src = "images/boxer.png";
+boxer.onload = function() {drawopp();}
+var opp_block = new Image();
+opp_block.src = "images/opp_block.png";
+var opp_punch = new Image();
+opp_punch.src = "images/opp_punch.png";
+var usr_block = new Image();
+usr_block.src = "images/usr_block.png";
+var usr_punch = new Image();
+usr_punch.src = "images/usr_punch.png";
+
+function hidehelp() {
+	document.getElementById("overlay").style.display = "none";
+}
+
+function showhelp() {
+	document.getElementById("overlay").style.display = "block";
+}
+
+var done = true;
+function runcode() {
+	if(done) {
+		done = false;
+		var code = window.Blockly.Generator.workspaceToCode('JavaScript');
+		//alert(code);
+		iterate(10, code, 0);
+	}
+}
+
+function iterate(n, code, score) {
+
+	if(n > 0) {
+		drawopp();
+		drawscore(score);
+		var opp_loc = (Math.random() < 0.5) ? "left" : "right";
+		var opp_state = (Math.random() < 0.5) ? "block" : "punch";
+		var usr_loc = (Math.random() < 0.5) ? "left" : "right";
+		var usr_state = (Math.random() < 0.5) ? "block" : "punch";
+		eval(code);
+		if(usr_state != opp_state) {
+			if(usr_state == 'punch' && usr_loc != opp_loc || usr_state == 'block' && usr_loc == opp_loc) {
+				score = score + 10;
+			} else {
+				score = score - 10;
+			}
+		}
+		setTimeout(function() {drawopploc(opp_state, opp_loc)}, 1000);
+		setTimeout(function() {drawusrloc(usr_state, usr_loc)}, 2000);
+		setTimeout(function() {drawscore(score)}, 2500);
+		setTimeout(function() {iterate(n - 1, code, score)}, 3000);
+	} else {
+		done = true;
+	}
+}
+
+function  drawopp() {
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	ctx.drawImage(boxer, 0, 0);	
+}
+function  drawopploc(opp_state, opp_loc) {
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	var block = opp_state == 'block' ? opp_block : opp_punch;
+	if(opp_loc == 'left') {
+		ctx.drawImage(block, 30, 180);
+	} else {
+		ctx.drawImage(block, 270, 180);
+	}
+}
+function  drawusrloc(usr_state, usr_loc) {
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	var block = usr_state == 'block' ? usr_block : usr_punch;
+	if(usr_loc == 'left') {
+		ctx.drawImage(block, 30, 320);
+	} else {
+		ctx.drawImage(block, 270, 320);
+	}
+}
+function  drawscore(score) {
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = "rgb(255, 255, 255)";
+	ctx.fillRect(0, 0, 480, 34);
+	ctx.font="30px Arial";
+	ctx.fillStyle = "rgb(0, 0, 0)";
+	ctx.fillText("SCORE: " + score,40,34);
+}
+/*Blockly.Language.variables_get = {
+  category: null,
+  helpUrl: 'http://en.wikipedia.org/wiki/Variable_%28computer_science%29',
+  init: function() {
+    this.setColour(330);
+    this.appendDummyInput()
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
+        .appendTitle(new Blockly.FieldVariable(
+        Blockly.LANG_VARIABLES_GET_ITEM), 'VAR');
+    this.setOutput(true, null);
+    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
+      this.setTitleValue(newName, 'VAR');
+    }
+  }
+};
+
+Blockly.Language.variables_set = {
+  category: null,
+  helpUrl: 'http://en.wikipedia.org/wiki/Variable_%28computer_science%29',
+  init: function() {
+    this.setColour(330);
+    this.appendValueInput('VALUE')
+        .appendTitle(Blockly.LANG_VARIABLES_SET_TITLE)
+        .appendTitle(new Blockly.FieldVariable(
+        Blockly.LANG_VARIABLES_SET_ITEM), 'VAR');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(Blockly.LANG_VARIABLES_SET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
+      this.setTitleValue(newName, 'VAR');
+    }
+  }
+};*/</script> 
+</head>
+<body
+>
+ <div id="container">
+<div id="overlay">
+<h1 class=title> Introduction to Logic </h1>
+<br />
+ <p>&nbsp&nbsp&nbsp&nbsp&nbsp In this exercise we will analyze the use logic by mimicing the actions of a boxer in the ring.
+Just like in a real match, you must anticipate your opponent's moves and respond to them correctly.
+This is the time to use the if statement: if the oppenent moves a certain way, then counter with
+he appropriate action. On the left you will see your opponent and on the right you will see an empty
+square. This is your workspace. Navigate the menus to find the appropriate commands to create a
+fighting scheme. Drag and drop the components into the correct position to connect them. To change a
+value click on the text, for example if you wish to change "punch right" to "punch left", just click
+on "left". Remember, to acheive the maximum score, account for all posible situations.
+When you feel you are ready, press the run button to run your code. You can save your work under file
+and bring this text back up with the help button. Click Hide below to proceed.</p> 
+<br />
+<div id="hide"><button onclick="hidehelp()">Hide</button></div>
+</div>
+<div id="filebarwrapper">
+<ul id="filebar">
+<li><a href="#">File</a>
+<ul>
+<li><a href="#">Load</a></li>
+<li><a href="#">Save</a></li>
+</ul>
+</li>
+<li><a href="#" onclick="runcode()">Run</a></li>
+<li><a href="#" onclick="showhelp()">Help</a></li>
+<li><a href="#" onclick="loadhome()">Home</a></li>
+</ul>
+</div>
+<script>
+function blocklyLoaded(blockly) {
+// Called once Blockly is fully loaded.
+window.Blockly = blockly;
+}
+</script>
+<table width="100%" height="100%">
+<tr>
+<td width="500">
+<canvas id="canvas" width="500" height="580"></canvas>
+</td>
+<td>
+
+
+
+<html>
+<head>
+<title>Game to Code</title>
+<style type="text/css">
+* 
+{
+	padding:0;
+	margin:0;
+}
+.title
+{
+	text-align:center;
+	text-decoration:underline;
+}
+.center
+{
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+#content
+{
+	width:100%;
+	height:100%;
+	border-width:0;
+}body
+{
+	background-color:#111111;
+}
+h1
+{
+	color:#afafb0;
+}
+a
+{
+	color:#0000b7;
+}
+p, a , h1
+{
+	font-family:courier;
+}
+p
+{
+	color:#22aa44;
+	text-indent:40px;
+}
+ul
+{
+	list-style:none;
+	text-indent:40px;
+}
+a:visited, a:link
+{
+	color:#415ec1;
+}
+a:active, a:hover
+{
+	color:#08f7ff;
+}
+.dir
+{
+	text-indent:0;
+}
+.par_image
+{
+	float:left;
+	color:#22aa44;
+	margin:5px 10px 5px 5px;
+}
+#selection
+{
+	width:50%;
+	margin-left:auto;
+	margin-right:auto;
+	border-style:groove;
+	border-width:6px;
+	border-color:#777777;
+}
+#text
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:60%;
+	
+}
+#level_button
+{
+	font-size:24;
+	background-color:#22aa44;
+    border-radius: 12px;
+    border: 1px solid #000;
+	width:256px;
+	height:64px;
+}
+#level_button:active, #level_button:hover
+{
+	background-color:#55da77;
+}</style>
+ <meta charset="utf-8">
+<script type=text/javascript src= /blockly/trunk/demos/blockly_compressed.js></script>
+
+<script type=text/javascript src= /blockly/trunk/generators/javascript.js></script>
+<script type=text/javascript src= /blockly/trunk/generators/javascript/gtc.js></script>
+
+<script type=text/javascript src= /blockly/trunk/language/en/_messages.js></script>
+<script type="text/javascript" src="language.js"></script>
+<script>
+function init() {
+Blockly.inject(document.body, {path: 'blockly/trunk/'});
+// Let the top-level application know that Blockly is ready.
+window.parent.blocklyLoaded(Blockly);
+}
+</script>
+<style>
+html, body {
+background-color: #fff;
+margin: 0;
+padding:0;
+overflow: hidden;
+}
+.blocklySvg {
+height: 100%;
+width: 100%;
+}
+</style> 
+</head>
+<body
+onload= init() 
+>
+  
+</body>
+</html>
+</td>
+</tr>
+</table>
+</div> 
+</body>
+</html>
