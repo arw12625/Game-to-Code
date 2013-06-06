@@ -5,14 +5,6 @@ for(var i = 0; i < 8; i++) {
 }
 farm[0].onload = function() {draw(0);}
 
-function hidehelp() {
-	document.getElementById("overlay").style.display = "none";
-}
-
-function showhelp() {
-	document.getElementById("overlay").style.display = "block";
-}
-
 var done = true;
 function runcode() {
 	if(done) {
@@ -35,7 +27,7 @@ function iterate(code, n) {
 		}
 	} else if(n == 3) {
 		draw(2 * n + 1);
-	}else {
+	} else {
 		done = true;
 	}
 }

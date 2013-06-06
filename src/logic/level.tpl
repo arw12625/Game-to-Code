@@ -21,4 +21,4 @@ Introduction to Logic
   and bring this text back up with the help button. Click Hide below to proceed.</p>
 {==}
 
-{% L_DIR=logic include level.tpl %}
+{% L_DIR=$L_DIR include level.tpl %}

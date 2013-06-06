@@ -1,5 +1,6 @@
 #!/bin/bash
 
+OLDPWD=$PWD
 THISDIR=$PWD
 if [[ ! -f "$THISDIR/oss" ]]; then
     THISDIR=${0%/oss}
@@ -81,7 +82,7 @@ function compile() {
     cd $SRC
     for file in $(lsr $SRC | egrep "\.tpl$"); do
 	read line <$file
-	if [[ $line =~ \#!template ]]; then
+	if [[ $line =~ ^\#!template ]]; then
 	    outputfile=${line#\#!template }
 	    echo Compiling "$file" to "$outputfile"
 	    OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
@@ -90,6 +91,7 @@ function compile() {
     while true; do
 	read file || break
 	if [[ -n $file ]]; then
+	    echo Copying $SRC/$file to $outdir/$file
 	    cp $SRC/$file $outdir/$file -r
 	fi
     done < $STATIC
@@ -125,6 +127,22 @@ function edit() {
     esac
 }
 
+## ls-tpl
+# ls-tpl {args for ls}
+# does the equivalent of `ls *.tpl` so it's easier to
+#+ find template files instead of having lots of extra 
+#+ HTML files
+function ls-tpl() {
+    if [[ -z "$1" ]]; then
+	( 
+	    cd $OLDPWD
+	    ls *.tpl
+	)
+    else
+	ls "$@"
+    fi
+}
+
 function main() {
     local whatdo
     whatdo=$1; shift
@@ -135,6 +153,7 @@ function main() {
 	xedit|xe) edit "$@";;
 	xrunthis|xr) eval "$@";;
 	xclean|xcl) cleandirs $SRC;;
+	xls|xl) ls-tpl "$@";;
 	x) echo "Pass a command: {install,compile}";;
     esac
 }

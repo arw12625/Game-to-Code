@@ -1,2 +1,4 @@
 blockly
 logic/images
+asteroid/images
+computer/images

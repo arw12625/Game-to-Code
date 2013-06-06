@@ -1,9 +1,17 @@
 function loadintro(name) {
-	document.location = name + '/intro.html';
+    window.location = name + '/intro.html';
 }
 function loadlevel() {
-	window.location = 'level.html';
+    window.location = 'level.html';
 }
 function loadhome() {
-	document.location = '../home.html';
+    window.location = '../';
+}
+function hidehelp() {
+	document.getElementById("overlay").style.display = "none";
+	done = true;
+}
+
+function showhelp() {
+	document.getElementById("overlay").style.display = "block";
 }

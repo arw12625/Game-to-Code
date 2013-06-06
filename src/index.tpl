@@ -8,6 +8,7 @@
     <style type="text/css">
       {% cat style.css %}
       {% cat terminal.css %}
+      {% cat runtime.css %}
     </style>
     {{ $HEADER }}
   </head>

@@ -10,14 +10,6 @@ usr_block.src = "images/usr_block.png";
 var usr_punch = new Image();
 usr_punch.src = "images/usr_punch.png";
 
-function hidehelp() {
-	document.getElementById("overlay").style.display = "none";
-}
-
-function showhelp() {
-	document.getElementById("overlay").style.display = "block";
-}
-
 var done = true;
 function runcode() {
 	if(done) {

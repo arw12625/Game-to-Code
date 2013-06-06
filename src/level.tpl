@@ -4,6 +4,7 @@
 
 {= HEADER =}
 <script type="text/javascript">
+  {% cat nav.js %}
   {% cat $L_DIR/level.js %}
 </script>
 {==}
@@ -42,7 +43,7 @@
 	<canvas id="canvas" width="500" height="580"></canvas>
       </td>
       <td>
-	{% include frame.tpl %}
+	<iframe id="code" src="frame.html"></iframe>
       </td>
     </tr>
   </table>

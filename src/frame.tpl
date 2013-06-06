@@ -1,5 +1,5 @@
 {= SRC =}
-/game-to-code
+..
 {==}
 
 {= HEADER =}
@@ -9,9 +9,10 @@
 <script type="text/javascript" src="{{$SRC}}/blockly/trunk/generators/javascript/gtc.js"></script>
 
 <script type="text/javascript" src="{{$SRC}}/blockly/trunk/language/en/_messages.js"></script>
+<script type="text/javascript" src="language.js"></script>
 <script>
   function init() {
-  Blockly.inject(document.body, {path: 'blockly/trunk/'});
+  Blockly.inject(document.body, {path: '{{$SRC}}/blockly/trunk/'});
   // Let the top-level application know that Blockly is ready.
   window.parent.blocklyLoaded(Blockly);
   }

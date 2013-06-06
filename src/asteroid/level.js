@@ -6,16 +6,6 @@ player.src = "images/player.png";
 var asteroid = new Image();
 asteroid.src = "images/asteroid.png";
 
-function hidehelp() {
-	document.getElementById("overlay").style.display = "none";
-	done = true;
-}
-
-function showhelp() {
-	document.getElementById("overlay").style.display = "block";
-}
-
-
 var done;
 var asteroids;
 var code;
@@ -41,8 +31,11 @@ function iterate(n) {
 	if(n > 0) {
 		drawscene();
 		drawscore(score);
-		//eval(code);
-		Math.random() > .5 ? position++ : position--;
+		var oldposition = position;
+		eval(code);
+		if (oldposition == position) {
+		    Math.random() > .5 ? position++ : position--;
+		}
 		position = Math.max(Math.min(position, 6), 0);
 		for(var i = 0; i < asteroids.length; i++) {
 			asteroids[i]++;
