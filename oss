@@ -9,8 +9,11 @@ fi
 SRC=$THISDIR/src
 BASHDIR=$THISDIR/bash-stuff
 TEMPLATE=$BASHDIR/template.bash
+COLORIZE=$BASHDIR/colorize.bash
 STATIC=$SRC/static-listing.txt
 EDITOR="emacsclient -t" # Let's face it, you should be using this anyways
+
+source $COLORIZE
 
 ## lsr
 # lsr directory
@@ -84,7 +87,7 @@ function compile() {
 	read line <$file
 	if [[ $line =~ ^\#!template ]]; then
 	    outputfile=${line#\#!template }
-	    echo Compiling "$file" to "$outputfile"
+	    echo Compiling "$(color-dir ${file#$THISDIR/})" to "$(color-dir $outputfile)"
 	    OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
 	fi
     done
