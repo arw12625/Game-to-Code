@@ -11,18 +11,25 @@ var usr_punch = new Image();
 usr_punch.src = "images/usr_punch.png";
 
 var done = true;
+var hasPressedStop = false;
 function runcode() {
 	if(done) {
 		done = false;
 		var code = window.Blockly.Generator.workspaceToCode('JavaScript');
 		//alert(code);
+		showStopButton();
+		hasPressedStop = false;
 		iterate(10, code, 0);
 	}
 }
 
+function stopcode() {
+    hasPressedStop = true;
+}
+
 function iterate(n, code, score) {
 
-	if(n > 0) {
+	if(n > 0 && !hasPressedStop) {
 		drawopp();
 		drawscore(score);
 		var opp_loc = (Math.random() < 0.5) ? "left" : "right";
@@ -42,7 +49,8 @@ function iterate(n, code, score) {
 		setTimeout(function() {drawscore(score)}, 2500);
 		setTimeout(function() {iterate(n - 1, code, score)}, 3000);
 	} else {
-		done = true;
+		done = true;	
+		hideStopButton();
 	}
 }
 

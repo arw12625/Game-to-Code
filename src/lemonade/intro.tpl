@@ -1,9 +1,4 @@
-.#!template lemonade/index.html
-# ^ the above line would not have a . in front 
-#+ of it if you were actually making a new level
-#+ (delete these lines, too, for good measure)
-
-
+#!template lemonade/index.html
 
 {= L_TITLE =}
 Running a Simulation

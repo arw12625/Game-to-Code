@@ -3,6 +3,7 @@
 logic:What is logic?
 computer:What are Computers?
 asteroid:Let's Play a Game!
+lemonade:Lemonade Simulation
 {==}
 
 {= ROOTDIR =}

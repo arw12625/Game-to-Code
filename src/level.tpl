@@ -27,6 +27,8 @@
 	</ul>
       </li>
       <li><a href="#" onclick="runcode()">Run</a></li>
+      <!-- I'm sorry :( -->
+      <li><a style="visibility:hidden" id="stop-button" href="#" onclick="stopcode()">Stop</a></li>
       <li><a href="#" onclick="showhelp()">Help</a></li>
       <li><a href="#" onclick="loadhome()">Home</a></li>
     </ul>

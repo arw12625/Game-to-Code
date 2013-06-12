@@ -15,3 +15,9 @@ function hidehelp() {
 function showhelp() {
 	document.getElementById("overlay").style.display = "block";
 }
+function hideStopButton() {
+    document.getElementById("stop-button").style.visibility = "hidden";
+}
+function showStopButton() {
+    document.getElementById("stop-button").style.visibility = "visible";
+}
