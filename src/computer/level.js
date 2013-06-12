@@ -12,9 +12,9 @@ function runcode() {
 		// this seems really hacky.  A comment would have been great here.
 		// Each statement/block that's written in Blockly gets written with a 
 		//+ newline to separate them.  We need it to execute each part in order
-		//+ with a pretty large pause between them.  Additionally, there's one
-		//+ extra newline at the end, which causes there to be an empty block
-		//+ at the end, so we pop it off.
+		//+ with a pretty large pause between them, so we split on the newlines
+		//+ Additionally, there's one extra newline at the end, which causes 
+		//+ there to be an empty block at the end, so we pop it off.
 		var code = window.Blockly.Generator.workspaceToCode('JavaScript').split("\n");
 		code.pop();
 		iterate(code, 0);
