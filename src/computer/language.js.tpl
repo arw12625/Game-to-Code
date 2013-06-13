@@ -1,5 +1,7 @@
 #!template computer/language.js
 
+Blockly.JavaScript = Blockly.Generator.get("JavaScript");
+
 Blockly.Language.gtc_waterfield={
 	category:"Game-to-Code",
 	init:function(){
@@ -10,6 +12,9 @@ Blockly.Language.gtc_waterfield={
 		this.setNextStatement(true);
 		this.setTooltip("Water your field.");
 	}
+};
+Blockly.JavaScript.gtc_waterfield = function() {
+    return "current_state = 0;\n";
 };
 Blockly.Language.gtc_clearfield={
 	category:"Game-to-Code",
@@ -22,6 +27,9 @@ Blockly.Language.gtc_clearfield={
 		this.setTooltip("Clear your field.");
 	}
 };
+Blockly.JavaScript.gtc_clearfield = function() {
+    return "current_state = 1;\n";
+};
 Blockly.Language.gtc_plantfield={
 	category:"Game-to-Code",
 	init:function(){
@@ -32,4 +40,7 @@ Blockly.Language.gtc_plantfield={
 		this.setNextStatement(true);
 		this.setTooltip("Plant your field.");
 	}
+};
+Blockly.JavaScript.gtc_plantfield = function() {
+    return "current_state = 2;\n";
 };
