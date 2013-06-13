@@ -56,4 +56,30 @@ Blockly.Language.gtc_punch={
 	}
 };
 
+Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+
+Blockly.JavaScript.gtc_isblocking = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "(\'"+loc+"\'==opp_loc) && (opp_state == 'block')";
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript.gtc_ispunching = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "(\'"+loc+"\'==opp_loc) && (opp_state == 'punch')";
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript.gtc_punch = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "usr_state = 'punch';\nusr_loc = \'"+loc+"\';\n";
+  return code;
+};
+
+Blockly.JavaScript.gtc_block = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "usr_state = 'block';\nusr_loc = \'"+loc+"\';\n";
+  return code;
+};
+
 {% cat javascript/blockly_if.js %}

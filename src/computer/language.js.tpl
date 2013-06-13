@@ -14,7 +14,7 @@ Blockly.Language.gtc_waterfield={
 	}
 };
 Blockly.JavaScript.gtc_waterfield = function() {
-    return "current_state = 0;\n";
+    return "current_state = 2;\n";
 };
 Blockly.Language.gtc_clearfield={
 	category:"Game-to-Code",
@@ -28,7 +28,7 @@ Blockly.Language.gtc_clearfield={
 	}
 };
 Blockly.JavaScript.gtc_clearfield = function() {
-    return "current_state = 1;\n";
+    return "current_state = 0;\n";
 };
 Blockly.Language.gtc_plantfield={
 	category:"Game-to-Code",
@@ -42,5 +42,5 @@ Blockly.Language.gtc_plantfield={
 	}
 };
 Blockly.JavaScript.gtc_plantfield = function() {
-    return "current_state = 2;\n";
+    return "current_state = 1;\n";
 };

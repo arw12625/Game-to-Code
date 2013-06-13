@@ -5,6 +5,7 @@
 {= HEADER =}
 <script type="text/javascript">
   {% cat nav.js %}
+  {% cat runtime.js %}
   {% cat $L_DIR/level.js %}
 </script>
 {==}

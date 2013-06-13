@@ -17,7 +17,6 @@ function runcode() {
 		done = false;
 		asteroids = new Array();
 		code = window.Blockly.Generator.workspaceToCode('JavaScript');
-		alert(code);
 		score = 0;
 		position = 3;
 		for(var i = 0; i < 7; i++) {
@@ -32,6 +31,7 @@ function iterate(n) {
 		drawscene();
 		drawscore(score);
 		var oldposition = position;
+		console.log(code);
 		eval(code);
 		if (oldposition == position) {
 		    Math.random() > .5 ? position++ : position--;
@@ -77,3 +77,4 @@ function  drawscore(score) {
 	ctx.fillStyle = "rgb(255, 255, 255)";
 	ctx.fillText("SCORE: " + score,40,34);
 }
+

@@ -1,9 +1,11 @@
 #!template asteroid/language.js
 
+Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+
 var DIRECTIONS =
     [['Left', 'left'],
-     ['Right', 'right']
-	 ['Forward', 'forward']];
+     ['Right', 'right'],
+     ['Forward', 'forward']];
 	 
 var LOCATIONS =
     [['Left', 'left'],
@@ -22,6 +24,12 @@ Blockly.Language.gtc_move={
 	}
 };
 
+Blockly.JavaScript.gtc_move = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = (loc == 'left' ? "position--" : "position++")+ ";\n";
+  return code;
+};
+
 Blockly.Language.gtc_isasteroid={
 	category:"Game-to-Code",
 	init:function(){
@@ -29,12 +37,26 @@ Blockly.Language.gtc_isasteroid={
 		this.setOutput(true,Boolean);
 		this.appendDummyInput()
 			.appendTitle('Is there an asteroid to the ')
-			.appendTitle(new Blockly.FieldDropdown(LOCATIONS), 'LOC');
+			.appendTitle(new Blockly.FieldDropdown(DIRECTIONS), 'LOC');
 		this.setInputsInline(true);
 		this.setTooltip("Check if an asteroid is in the specified direction.");
 	}
 };
-	 
 
-#REPLACE: at the end is where you put any extra, common blocks
+
+Blockly.JavaScript.gtc_isasteroid = function() {
+  var loc = this.getTitleValue('LOC');
+  var code = "";
+  if(loc == 'left') {
+	code = "position > 0 && asteroids[position - 1] == 6";
+  }
+  if(loc == 'right') {
+	code = "position < asteroids.length - 1 && asteroids[position + 1] == 6";
+  }
+  if(loc == 'forward') {
+	code = "asteroids[position] == 6";
+  }
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};	 
+
 {% cat javascript/blockly_if.js %}

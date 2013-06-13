@@ -1,47 +1,3 @@
-var ExecutionQueue = function() {
-    this.queue = [];
-    this.delays = [];
-    this.lastTime = null;
-    // RUN_TIME_DELAY is used if there are no items in the queue
-    this.RUN_TIME_DELAY = 1000; // ms
-    // SHORT_DELAY is used to give a very short delay between run() and the function in the queue
-    this.SHORT_DELAY = 100; // ms
-    // SHORTEST_DELAY is the shortest amount of time a function can last
-    this.SHORTEST_DELAY = this.SHORT_DELAY + 100; // ms
-};
-// delay in ms, used for SetTimeout
-ExecutionQueue.prototype.addToQueue = function(fun, delay) {
-    if (delay < this.SHORTEST_DELAY) {
-	delay = this.SHORTEST_DELAY;
-    }
-    this.queue.push(fun);
-    this.delays.push(delay);
-};
-ExecutionQueue.prototype.clear = function() {
-    this.queue = [];
-    this.delays = [];
-};
-// execute runs one function, run() is for the whole process
-ExecutionQueue.prototype.execute = function() {
-    // Warning, shift() does not run in constant time, might be bad for performance
-    (this.queue.shift())();
-};
-ExecutionQueue.prototype.DoNothing = function() {
-    return function() { };
-};
-ExecutionQueue.prototype.run = function() {
-    var that = this;
-    if (this.queue !== null && this.queue.length > 0) {
-	setTimeout(function() { that.execute() }, this.SHORT_DELAY);
-	setTimeout(function() { that.run() }, this.delays.shift());
-    } else {
-	setTimeout(function() { that.run() }, this.RUN_TIME_DELAY);
-    }
-}
-    
-    var eq = new ExecutionQueue();
-eq.run();
-
 // Populate farm with the images, farm_1, farm_2, ..., farm_8
 // even images are the first part of the animation, odd are the second
 // farm_1 is the opening picture
@@ -50,15 +6,19 @@ for(var i = 0; i < 8; i++) {
     farm[i] = new Image();
     farm[i].src = "images/farm_" + (i + 1) + ".png";
 }
-farm[0].onload = function() {draw(0);}
+farm[0].onload = function() { draw(0); };
 
 var expectedState = null;
 var isRunning = false;
 var score = 0;
+var FIRST_STATE = 0;
 var LAST_STATE = 2;
+var FIRST_IMAGE = 0;
+var INITIAL_SCORE = 0;
 function runcode() {
     if(!isRunning) {
 	isRunning = true;
+	showStopButton();
 	// this seems really hacky.  A comment would have been great here.
 	// Each statement/block that's written in Blockly gets written with a 
 	//+ newline to separate them.  We need it to execute each part in order
@@ -67,7 +27,8 @@ function runcode() {
 	//+ there to be an empty block at the end, so we pop it off.
 	var code = window.Blockly.Generator.workspaceToCode('JavaScript').split("\n");
 	code.pop();
-	expectedState = 0;
+	score = INITIAL_SCORE;
+	expectedState = FIRST_STATE;
 	for (var i=0; i<code.length; i++) {
 	    (function (scoped_i) {
 		eq.addToQueue(function() {
@@ -81,7 +42,15 @@ function runcode() {
 		    1000);
 	    })(i);
 	}
+	eq.addToQueue(function() { isRunning = false; hideStopButton() }, 0);
     }
+}
+
+function stopcode() {
+    eq.empty();
+    draw(FIRST_IMAGE);
+    hideStopImage();
+    isRunning = false;
 }
 
 function executeCurrent(code) {
@@ -90,9 +59,13 @@ function executeCurrent(code) {
                 // if (this is the same as the current state we _should_ be at), then hooray!
     if (current_state == expectedState) {
 	// Woohoo!
-	if (current_state = LAST_STATE) {
+	if (current_state == LAST_STATE) {
 	    score = 100;
 	    console.log("finished game");
+	    var finalImage = farm.length - 1;
+	    eq.addToQueue(function() { draw(finalImage) }, 0);
+	    isRunning = false;
+	    hideStopButton();
 	} else {
 	    console.log("score increased");
 	    score += 33;
@@ -100,6 +73,8 @@ function executeCurrent(code) {
 	}
     } else {
 	console.log("incorrect state, expected " + expectedState + ", got " + current_state);
+	eq.empty();
+    }
 }
 
 
@@ -117,3 +92,4 @@ function  drawscore(score) {
     ctx.fillStyle = "rgb(0, 0, 0)";
     ctx.fillText("SCORE: " + score,40,34);
 }
+

@@ -11,20 +11,23 @@ var usr_punch = new Image();
 usr_punch.src = "images/usr_punch.png";
 
 var done = true;
-var hasPressedStop = false;
+var isRunning = false;
 function runcode() {
-	if(done) {
-		done = false;
+	if(!isRunning) {
+		isRunning = true;
 		var code = window.Blockly.Generator.workspaceToCode('JavaScript');
 		//alert(code);
 		showStopButton();
 		hasPressedStop = false;
-		iterate(10, code, 0);
+		eq.addToQueue(function() { iterate(10, code, 0) }, 0);
 	}
 }
 
 function stopcode() {
+    eq.empty();
+    hideStopButton();
     hasPressedStop = true;
+    isRunning = false;
 }
 
 function iterate(n, code, score) {
@@ -36,6 +39,7 @@ function iterate(n, code, score) {
 		var opp_state = (Math.random() < 0.5) ? "block" : "punch";
 		var usr_loc = (Math.random() < 0.5) ? "left" : "right";
 		var usr_state = (Math.random() < 0.5) ? "block" : "punch";
+		console.log(code);
 		eval(code);
 		if(usr_state != opp_state) {
 			if(usr_state == 'punch' && usr_loc != opp_loc || usr_state == 'block' && usr_loc == opp_loc) {
@@ -44,13 +48,12 @@ function iterate(n, code, score) {
 				score = score - 10;
 			}
 		}
-		setTimeout(function() {drawopploc(opp_state, opp_loc)}, 1000);
-		setTimeout(function() {drawusrloc(usr_state, usr_loc)}, 2000);
-		setTimeout(function() {drawscore(score)}, 2500);
-		setTimeout(function() {iterate(n - 1, code, score)}, 3000);
+		eq.addToQueue(function() { drawopploc(opp_state, opp_loc) }, 1000);
+		eq.addToQueue(function() { drawusrloc(usr_state, usr_loc) }, 500);
+		eq.addToQueue(function() { drawscore(score) }, 500);
+		eq.addToQueue(function() { iterate(n - 1, code, score) }, 1000);
 	} else {
-		done = true;	
-		hideStopButton();
+	    stopcode();
 	}
 }
 
@@ -88,47 +91,3 @@ function  drawscore(score) {
 	ctx.fillStyle = "rgb(0, 0, 0)";
 	ctx.fillText("SCORE: " + score,40,34);
 }
-/*Blockly.Language.variables_get = {
-  category: null,
-  helpUrl: 'http://en.wikipedia.org/wiki/Variable_%28computer_science%29',
-  init: function() {
-    this.setColour(330);
-    this.appendDummyInput()
-        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
-        .appendTitle(new Blockly.FieldVariable(
-        Blockly.LANG_VARIABLES_GET_ITEM), 'VAR');
-    this.setOutput(true, null);
-    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
-  },
-  getVars: function() {
-    return [this.getTitleValue('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
-      this.setTitleValue(newName, 'VAR');
-    }
-  }
-};
-
-Blockly.Language.variables_set = {
-  category: null,
-  helpUrl: 'http://en.wikipedia.org/wiki/Variable_%28computer_science%29',
-  init: function() {
-    this.setColour(330);
-    this.appendValueInput('VALUE')
-        .appendTitle(Blockly.LANG_VARIABLES_SET_TITLE)
-        .appendTitle(new Blockly.FieldVariable(
-        Blockly.LANG_VARIABLES_SET_ITEM), 'VAR');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(Blockly.LANG_VARIABLES_SET_TOOLTIP);
-  },
-  getVars: function() {
-    return [this.getTitleValue('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
-      this.setTitleValue(newName, 'VAR');
-    }
-  }
-};*/

@@ -80,8 +80,16 @@ function install() {
 function compile() {
     local file line outputfile outdir
     outdir=$THISDIR/output
+    if [[ -e $outdir/blockly ]]; then
+	echo saving blockly
+	mv $outdir/blockly ./blockly
+    fi
     rm -rf $outdir
     mkdir -p $outdir
+    if [[ -e ./blockly ]]; then
+	echo restoring blockly
+	mv ./blockly $outdir/blockly
+    fi
     cd $SRC
     for file in $(lsr $SRC | egrep "\.tpl$"); do
 	read line <$file
@@ -94,6 +102,10 @@ function compile() {
     while true; do
 	read file || break
 	if [[ -n $file ]]; then
+	    if [[ $file =~ blockly ]] && [[ -e $outdir/blockly ]]; then
+		echo Skipping blockly-like file, $file
+		continue
+	    fi
 	    echo Copying $SRC/$file to $outdir/$file
 	    cp $SRC/$file $outdir/$file -r
 	fi
