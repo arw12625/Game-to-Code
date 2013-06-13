@@ -6,8 +6,6 @@
 <meta charset="utf-8">
 <script type="text/javascript" src="{{$SRC}}/blockly/trunk/demos/blockly_compressed.js"></script>
 <script type="text/javascript" src="{{$SRC}}/blockly/trunk/generators/javascript.js"></script>
-<script type="text/javascript" src="{{$SRC}}/blockly/trunk/generators/javascript/gtc.js"></script>
-
 <script type="text/javascript" src="{{$SRC}}/blockly/trunk/language/en/_messages.js"></script>
 <script type="text/javascript" src="language.js"></script>
 <script>
