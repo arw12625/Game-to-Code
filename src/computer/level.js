@@ -1,53 +1,119 @@
+var ExecutionQueue = function() {
+    this.queue = [];
+    this.delays = [];
+    this.lastTime = null;
+    // RUN_TIME_DELAY is used if there are no items in the queue
+    this.RUN_TIME_DELAY = 1000; // ms
+    // SHORT_DELAY is used to give a very short delay between run() and the function in the queue
+    this.SHORT_DELAY = 100; // ms
+    // SHORTEST_DELAY is the shortest amount of time a function can last
+    this.SHORTEST_DELAY = this.SHORT_DELAY + 100; // ms
+};
+// delay in ms, used for SetTimeout
+ExecutionQueue.prototype.addToQueue = function(fun, delay) {
+    if (delay < this.SHORTEST_DELAY) {
+	delay = this.SHORTEST_DELAY;
+    }
+    this.queue.push(fun);
+    this.delays.push(delay);
+};
+ExecutionQueue.prototype.clear = function() {
+    this.queue = [];
+    this.delays = [];
+};
+// execute runs one function, run() is for the whole process
+ExecutionQueue.prototype.execute = function() {
+    // Warning, shift() does not run in constant time, might be bad for performance
+    (this.queue.shift())();
+};
+ExecutionQueue.prototype.DoNothing = function() {
+    return function() { };
+};
+ExecutionQueue.prototype.run = function() {
+    var that = this;
+    if (this.queue !== null && this.queue.length > 0) {
+	setTimeout(function() { that.execute() }, this.SHORT_DELAY);
+	setTimeout(function() { that.run() }, this.delays.shift());
+    } else {
+	setTimeout(function() { that.run() }, this.RUN_TIME_DELAY);
+    }
+}
+    
+    var eq = new ExecutionQueue();
+eq.run();
+
+// Populate farm with the images, farm_1, farm_2, ..., farm_8
+// even images are the first part of the animation, odd are the second
+// farm_1 is the opening picture
 var farm = new Array();
 for(var i = 0; i < 8; i++) {
-	farm[i] = new Image();
-	farm[i].src = "images/farm_" + (i + 1) + ".png";
+    farm[i] = new Image();
+    farm[i].src = "images/farm_" + (i + 1) + ".png";
 }
 farm[0].onload = function() {draw(0);}
 
-var done = true;
+var expectedState = null;
+var isRunning = false;
+var score = 0;
+var LAST_STATE = 2;
 function runcode() {
-	if(done) {
-		done = false;
-		// this seems really hacky.  A comment would have been great here.
-		// Each statement/block that's written in Blockly gets written with a 
-		//+ newline to separate them.  We need it to execute each part in order
-		//+ with a pretty large pause between them, so we split on the newlines
-		//+ Additionally, there's one extra newline at the end, which causes 
-		//+ there to be an empty block at the end, so we pop it off.
-		var code = window.Blockly.Generator.workspaceToCode('JavaScript').split("\n");
-		code.pop();
-		iterate(code, 0);
+    if(!isRunning) {
+	isRunning = true;
+	// this seems really hacky.  A comment would have been great here.
+	// Each statement/block that's written in Blockly gets written with a 
+	//+ newline to separate them.  We need it to execute each part in order
+	//+ with a pretty large pause between them, so we split on the newlines
+	//+ Additionally, there's one extra newline at the end, which causes 
+	//+ there to be an empty block at the end, so we pop it off.
+	var code = window.Blockly.Generator.workspaceToCode('JavaScript').split("\n");
+	code.pop();
+	expectedState = 0;
+	for (var i=0; i<code.length; i++) {
+	    (function (scoped_i) {
+		eq.addToQueue(function() {
+			draw(2*scoped_i);
+			executeCurrent(code[scoped_i]);
+		    },
+		    1000);
+		eq.addToQueue(function() {
+			draw(2*scoped_i + 1);
+		    },
+		    1000);
+	    })(i);
 	}
+    }
 }
 
-function iterate(code, n) {
-	if(n < code.length) {
-		draw(2 * n);
-		drawscore(n * 10);
-		var state = 0;
-		eval(code[n]);
-		if(state == n) {
-			setTimeout(function() {draw(2 * n + 1); drawscore(n * 10);}, 1000);
-			setTimeout(function() {iterate(code, n + 1);}, 2000);
-		}
-	} else if(n == 3) {
-		draw(2 * n + 1);
+function executeCurrent(code) {
+    var current_state = null;
+    eval(code); // This should look something like: current_state = 2;
+                // if (this is the same as the current state we _should_ be at), then hooray!
+    if (current_state == expectedState) {
+	// Woohoo!
+	if (current_state = LAST_STATE) {
+	    score = 100;
+	    console.log("finished game");
 	} else {
-		done = true;
+	    console.log("score increased");
+	    score += 33;
+	    expectedState++;
 	}
+    } else {
+	console.log("incorrect state, expected " + expectedState + ", got " + current_state);
 }
+
 
 function  draw(n) {
-	var canvas = document.getElementById('canvas');
-	var ctx = canvas.getContext('2d');
-	ctx.drawImage(farm[n], 0, 0);	
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(farm[n], 0, 0);	
+    drawscore(score);
 }
 
 function  drawscore(score) {
-	var canvas = document.getElementById('canvas');
-	var ctx = canvas.getContext('2d');
-	ctx.font="30px Arial";
-	ctx.fillStyle = "rgb(0, 0, 0)";
-	ctx.fillText("SCORE: " + score,40,34);
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.font="30px Arial";
+    ctx.fillStyle = "rgb(0, 0, 0)";
+    ctx.fillText("SCORE: " + score,40,34);
 }
