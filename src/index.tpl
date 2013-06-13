@@ -18,5 +18,9 @@
      {% fi %}
      >
     {{ $CONTENT }}
+    <div style="display: none" id="message_box">
+      <div id="message_message"></div>
+      <button id="level_button" onclick="hideMessage()">Close</button>
+    </div>
   </body>
 </html>

@@ -49,7 +49,7 @@ function runcode() {
 function stopcode() {
     eq.empty();
     draw(FIRST_IMAGE);
-    hideStopImage();
+    hideStopButton();
     isRunning = false;
 }
 
@@ -73,7 +73,7 @@ function executeCurrent(code) {
 	}
     } else {
 	console.log("incorrect state, expected " + expectedState + ", got " + current_state);
-	eq.empty();
+	stopcode();
     }
 }
 
