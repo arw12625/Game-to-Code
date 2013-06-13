@@ -188,3 +188,25 @@ Blockly.Language.controls_if_else = {
     this.contextMenu = false;
   }
 };
+
+Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+
+Blockly.JavaScript.controls_if = function() {
+  // If/elseif/else condition.
+  var n = 0;
+  var argument = Blockly.JavaScript.valueToCode(this, 'IF' + n,
+      Blockly.JavaScript.ORDER_NONE) || 'false';
+  var branch = Blockly.JavaScript.statementToCode(this, 'DO' + n);
+  var code = 'if (' + argument + ') {\n' + branch + '}';
+  for (n = 1; n <= this.elseifCount_; n++) {
+    argument = Blockly.JavaScript.valueToCode(this, 'IF' + n,
+        Blockly.JavaScript.ORDER_NONE) || 'false';
+    branch = Blockly.JavaScript.statementToCode(this, 'DO' + n);
+    code += ' else if (' + argument + ') {\n' + branch + '}';
+  }
+  if (this.elseCount_) {
+    branch = Blockly.JavaScript.statementToCode(this, 'ELSE');
+    code += ' else {\n' + branch + '}';
+  }
+  return code + '\n';
+};
