@@ -1,13 +1,10 @@
 #!template index.html
+
 {= LINKS =}
 logic:What is logic?
 computer:What are Computers?
 asteroid:Let's Play a Game!
 lemonade:Lemonade Simulation
-{==}
-
-{= ROOTDIR =}
-/game-to-code
 {==}
 
 {= HEADER =}
@@ -33,7 +30,7 @@ lemonade:Lemonade Simulation
     {% IFS=$'\n' %}
     {% for link in ${LINKS[@]}; do %}
     <li>
-      <a href="{{ $ROOTDIR/${link%:*} }}">
+      <a href="{{ $ROOTDIR/${link%:*} }}/index.html">
 	{{ ${link#*:} }}
       </a>
     </li>

@@ -11,7 +11,9 @@ BASHDIR=$THISDIR/bash-stuff
 TEMPLATE=$BASHDIR/template.bash
 COLORIZE=$BASHDIR/colorize.bash
 STATIC=$SRC/static-listing.txt
-EDITOR="emacsclient -t" # Let's face it, you should be using this anyways
+EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
+BROWSER=${BROWSER:-firefox}
+ROOTDIR=${ROOTDIR:-./}
 
 source $COLORIZE
 
@@ -80,28 +82,27 @@ function install() {
 function compile() {
     local file line outputfile outdir
     outdir=$THISDIR/output
+    # Quick hack because copying blockly takes forever
+    #+ Just saves blockly, clears the directory, restores it, and continues
     if [[ -e $outdir/blockly ]]; then
 	echo saving blockly
 	mv $outdir/blockly ./blockly
     fi
     rm -rf $outdir
     mkdir -p $outdir
+    # Quick hack continued
     if [[ -e ./blockly ]]; then
 	echo restoring blockly
 	mv ./blockly $outdir/blockly
     fi
     cd $SRC
     for file in $(lsr $SRC | egrep "\.tpl$"); do
-	read line <$file
-	if [[ $line =~ ^\#!template ]]; then
-	    outputfile=${line#\#!template }
-	    echo Compiling "$(color-dir ${file#$THISDIR/})" to "$(color-dir $outputfile)"
-	    OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
-	fi
+	compile-one "$file"
     done
     while true; do
 	read file || break
 	if [[ -n $file ]]; then
+	    # Quick hack continued
 	    if [[ $file =~ blockly ]] && [[ -e $outdir/blockly ]]; then
 		echo Skipping blockly-like file, $file
 		continue
@@ -110,6 +111,37 @@ function compile() {
 	    cp $SRC/$file $outdir/$file -r
 	fi
     done < $STATIC
+}
+
+## compile-one
+# compile-one /full/path/to/file.tpl
+# compile() uses this to only compile each file.  It's moved to a 
+#+ sepearate function to be able to generate a single file without
+#+ having to do the rest. A clean compile should be done every so 
+#+ often to make sure it all is correct.
+function compile-one() {
+    local file line outdir outputfile
+    file=${1:?File must be set}
+    outdir=$THISDIR/output
+    read line <$file
+    if [[ $line =~ ^\#!template ]]; then
+	outputfile=${line#\#!template }
+	echo Compiling "$(color-dir ${file#$THISDIR/})" to "$(color-dir $outputfile)"
+	ROOTDIR=$ROOTDIR OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
+    fi
+}
+
+## compile-one-wrapper
+# compile-one-wrapper file.tpl
+# compile-one needs its arg t have a full path, so this 
+#+ ensures that.  It also makes sure it's in the right 
+#+ directory
+function compile-one-wrapper() {
+    local file
+    file=${1:?File must be set}
+    file=$PWD/$file
+    cd $SRC
+    compile-one "$file"
 }
 
 ## template
@@ -158,17 +190,28 @@ function ls-tpl() {
     fi
 }
 
+## view-output
+# view-output
+# Opens output/index.html in $BROWSER
+function view-output() {
+    local outputdir
+    outputdir=$THISDIR/output
+    $BROWSER $outputdir/index.html
+}
+
 function main() {
     local whatdo
     whatdo=$1; shift
     case x$whatdo in
 	xinstall|xi) install "$@";;
 	xcompile|xc) compile "$@";;
+	xone-compile|xcc) compile-one-wrapper "$@";;
 	xtemplate|xt) template "$@";;
 	xedit|xe) edit "$@";;
 	xrunthis|xr) eval "$@";;
 	xclean|xcl) cleandirs $SRC;;
 	xls|xl) ls-tpl "$@";;
+	xview|xv) view-output "$@";;
 	x) echo "Pass a command: {install,compile}";;
     esac
 }
