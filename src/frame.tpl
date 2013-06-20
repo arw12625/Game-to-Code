@@ -4,13 +4,13 @@
 
 {= HEADER =}
 <meta charset="utf-8">
-<script type="text/javascript" src="{{$SRC}}/blockly/trunk/demos/blockly_compressed.js"></script>
-<script type="text/javascript" src="{{$SRC}}/blockly/trunk/generators/javascript.js"></script>
-<script type="text/javascript" src="{{$SRC}}/blockly/trunk/language/en/_messages.js"></script>
+<script type="text/javascript" src="{{ $SRC }}/blockly/trunk/demos/blockly_compressed.js"></script>
+<script type="text/javascript" src="{{ $SRC }}/blockly/trunk/generators/javascript.js"></script>
+<script type="text/javascript" src="{{ $SRC }}/blockly/trunk/language/en/_messages.js"></script>
 <script type="text/javascript" src="language.js"></script>
 <script>
   function init() {
-  Blockly.inject(document.body, {path: '{{$SRC}}/blockly/trunk/'});
+  Blockly.inject(document.body, {path: '{{ $SRC }}/blockly/trunk/'});
   // Let the top-level application know that Blockly is ready.
   window.parent.blocklyLoaded(Blockly);
   }

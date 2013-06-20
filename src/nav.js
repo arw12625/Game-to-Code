@@ -5,7 +5,7 @@ function loadlevel() {
     window.location = 'level.html';
 }
 function loadhome() {
-    window.location = '../';
+    window.location = '../index.html';
 }
 function hidehelp() {
 	document.getElementById("overlay").style.display = "none";
@@ -24,10 +24,8 @@ function showStopButton() {
 
 function showMessage(htmlMessage, color) {
     color = color || 'black';
-    // messageDiv is the whole div that is hidden/re-displayed
-    var messageDiv = document.getElementById('message_box');
-    // actualMessageDiv is where the text gets written to for the message
-    var actualMessageDiv = document.getElementById('message_message');
+    var messageDiv = document.getElementById('message_box');   // messageDiv is the whole div that is hidden/re-displayed
+    var actualMessageDiv = document.getElementById('message_message');  // actualMessageDiv is where the text gets written to for the message
     actualMessageDiv.innerHTML = htmlMessage;
     // Sorry, I'll do this right some other day.
     messageDiv.style.display = 'block';

@@ -10,12 +10,14 @@ SRC=$THISDIR/src
 BASHDIR=$THISDIR/bash-stuff
 TEMPLATE=$BASHDIR/template.bash
 COLORIZE=$BASHDIR/colorize.bash
+THREAD=$BASHDIR/thread.bash
 STATIC=$SRC/static-listing.txt
 EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
 BROWSER=${BROWSER:-firefox}
-ROOTDIR=${ROOTDIR:-./}
+ROOTDIR=${ROOTDIR:-.}
 
-source $COLORIZE
+source $COLORIZE || exit 1
+source $THREAD && init
 
 ## lsr
 # lsr directory
@@ -76,33 +78,75 @@ function install() {
     export PATH=$PATH:$THISDIR
 }
 
+## compile-parallel
+# oss compile-parallel
+# Compiles everything in parallel, basically does the same
+#+ thing as just compile (but hopefully faster).
+function compile-parallel() {
+    local outdir pool file
+    outdir=$THISDIR/output
+    pool=compile-parallel
+    compile-clean-output-dir
+    cd $SRC
+    for file in $(lsr $SRC | egrep "\.tpl$"); do
+	spawn-thread $pool compile-one $file
+    done
+    join-pool $pool
+    compile-copy-static
+}
+
 ## compile
 # oss compile
 # compiles all the code in the source directory
 function compile() {
     local file line outputfile outdir
     outdir=$THISDIR/output
-    # Quick hack because copying blockly takes forever
-    #+ Just saves blockly, clears the directory, restores it, and continues
-    if [[ -e $outdir/blockly ]]; then
-	echo saving blockly
-	mv $outdir/blockly ./blockly
-    fi
-    rm -rf $outdir
-    mkdir -p $outdir
-    # Quick hack continued
-    if [[ -e ./blockly ]]; then
-	echo restoring blockly
-	mv ./blockly $outdir/blockly
-    fi
+    compile-clean-output-dir
     cd $SRC
     for file in $(lsr $SRC | egrep "\.tpl$"); do
 	compile-one "$file"
     done
+    compile-copy-static
+}
+
+## compile-save-blockly
+# compile-save-blockly
+# Just... saves blockly to the current directory, so that
+#+ compiling is faster.  Uses $outdir in scope.
+function compile-save-blockly() {
+    if [[ -e $outdir/blockly ]]; then
+	echo saving blockly
+	mv $outdir/blockly ./blockly
+    fi
+}
+
+function compile-restore-blockly() {
+    if [[ -e ./blockly ]]; then
+	echo restoring blockly
+	mv ./blockly $outdir/blockly
+    fi
+}
+
+## compile-clean-output-dir
+# compile-clean-output-dir
+# This just clears out output/ so that we have a normalized
+#+ compiling sequence, and it's not different each time.
+function compile-clean-output-dir() {
+    compile-save-blockly
+    rm -rf $outdir
+    mkdir -p $outdir
+    compile-restore-blockly
+}
+
+## compile-copy-static
+# compile-copy-static
+# Reads through the static-listing.txt file and copies each
+#+ directory/file over to output/. $outdir passed in scope
+function compile-copy-static() {
+    local file
     while true; do
 	read file || break
 	if [[ -n $file ]]; then
-	    # Quick hack continued
 	    if [[ $file =~ blockly ]] && [[ -e $outdir/blockly ]]; then
 		echo Skipping blockly-like file, $file
 		continue
@@ -121,14 +165,16 @@ function compile() {
 #+ often to make sure it all is correct.
 function compile-one() {
     local file line outdir outputfile
-    file=${1:?File must be set}
     outdir=$THISDIR/output
-    read line <$file
-    if [[ $line =~ ^\#!template ]]; then
-	outputfile=${line#\#!template }
-	echo Compiling "$(color-dir ${file#$THISDIR/})" to "$(color-dir $outputfile)"
-	ROOTDIR=$ROOTDIR OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
-    fi
+    for file; do
+	file=${file:?File must be set}
+	read line <$file
+	if [[ $line =~ ^\#!template ]]; then
+	    outputfile=${line#\#!template }
+	    echo Compiling "$(color-dir ${file#$THISDIR/})" to "$(color-dir $outputfile)"
+	    ROOTDIR=$ROOTDIR OUTPUTDIR=$outdir $TEMPLATE $outputfile "$file"
+	fi
+    done
 }
 
 ## compile-one-wrapper
@@ -206,6 +252,7 @@ function main() {
 	xinstall|xi) install "$@";;
 	xcompile|xc) compile "$@";;
 	xone-compile|xcc) compile-one-wrapper "$@";;
+	xcompile-parallel|xcp) compile-parallel "$@";;
 	xtemplate|xt) template "$@";;
 	xedit|xe) edit "$@";;
 	xrunthis|xr) eval "$@";;
