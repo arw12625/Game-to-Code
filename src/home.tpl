@@ -1,6 +1,7 @@
 #!template index.html
 
 {= LINKS =}
+intro-to-blockly:Blockly Introduction
 logic:What is logic?
 computer:What are Computers?
 asteroid:Let's Play a Game!

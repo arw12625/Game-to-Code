@@ -16,7 +16,7 @@ EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
 BROWSER=${BROWSER:-firefox}
 ROOTDIR=${ROOTDIR:-.}
 
-source $COLORIZE || exit 1
+source $COLORIZE || function color-dir() { echo "$@"; }
 source $THREAD && init
 
 ## lsr
@@ -147,7 +147,7 @@ function compile-copy-static() {
     while true; do
 	read file || break
 	if [[ -n $file ]]; then
-	    if [[ $file =~ blockly ]] && [[ -e $outdir/blockly ]]; then
+	    if [[ $file =~ ^blockly$ ]] && [[ -e $outdir/blockly ]]; then
 		echo Skipping blockly-like file, $file
 		continue
 	    fi
@@ -245,6 +245,21 @@ function view-output() {
     $BROWSER $outputdir/index.html
 }
 
+## list
+# list
+# grabs all the different commands from this file and
+#+ prints them out, separated by commas
+function list() {
+    sed $THISDIR/oss -ne '/case x$whatdo/,/esac/ { s/[ \t]*x\([a-z][a-z]*\).*/\1/p; }' | tr "\n" ","
+}
+
+## print-help
+# oss help
+# prints the documentation from this project
+function print-help() {
+    sed $THISDIR/oss -ne '/^#/ { /^#!/ !p; }'
+}
+
 function main() {
     local whatdo
     whatdo=$1; shift
@@ -257,9 +272,10 @@ function main() {
 	xedit|xe) edit "$@";;
 	xrunthis|xr) eval "$@";;
 	xclean|xcl) cleandirs $SRC;;
-	xls|xl) ls-tpl "$@";;
+	xls|xls) ls-tpl "$@";;
 	xview|xv) view-output "$@";;
-	x) echo "Pass a command: {install,compile}";;
+	xhelp|xh) print-help "$@";;
+	x) echo "Pass a command: {$(list)}";;
     esac
 }
 

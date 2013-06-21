@@ -2,3 +2,4 @@ blockly
 logic/images
 asteroid/images
 computer/images
+intro-to-blockly/images

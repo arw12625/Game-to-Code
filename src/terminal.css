@@ -36,11 +36,19 @@ a:active, a:hover
 {
 	text-indent:0;
 }
-.par_image
+.par_image, .parr_image
 {
-	float:left;
 	color:#22aa44;
 	margin:5px 10px 5px 5px;
+}
+.par_image
+{
+    float: left;
+}
+/* Sorry, terrible name */
+.parr_image
+{
+    float: right
 }
 #selection
 {
