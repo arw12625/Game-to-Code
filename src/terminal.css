@@ -41,6 +41,13 @@ a:active, a:hover
 	color:#22aa44;
 	margin:5px 10px 5px 5px;
 }
+.bordered 
+{
+        -moz-boder-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	-khtml-border-radius: 10px;
+}
 .par_image
 {
     float: left;
