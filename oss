@@ -15,6 +15,7 @@ STATIC=$SRC/static-listing.txt
 EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
 BROWSER=${BROWSER:-firefox}
 ROOTDIR=${ROOTDIR:-.}
+OUTPUTZIP=$THISDIR/Game-to-Code.zip
 
 source $COLORIZE || function color-dir() { echo "$@"; }
 source $THREAD && init
@@ -258,6 +259,10 @@ function list() {
 # prints the documentation from this project
 function print-help() {
     sed $THISDIR/oss -ne '/^#/ { /^#!/ !p; }'
+}
+
+function create-zip() {
+    zip $OUTPUTZIP $OUTPUT/*
 }
 
 function main() {
