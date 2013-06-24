@@ -262,7 +262,29 @@ function print-help() {
 }
 
 function create-zip() {
-    zip $OUTPUTZIP $OUTPUT/*
+    zip $OUTPUTZIP $THISDIR/output/*
+}
+
+function zip-loop() {
+    while true; do
+	git pull || break
+	oss c || break
+	sleep 30m || break
+    done
+}
+
+## never-fail-zip-loop
+# never-fail-zip-loop
+# This will ensure that, even if the normal
+#+ zip loop fails, it will continue 
+#+ updating.  This way we don't run into an 
+#+ issue where the server stops updating
+#+ the zip file.
+function never-fail-zip-loop() {
+    while true; do
+	zip-loop
+	sleep 5m
+    done
 }
 
 function main() {
@@ -279,6 +301,9 @@ function main() {
 	xclean|xcl) cleandirs $SRC;;
 	xls|xls) ls-tpl "$@";;
 	xview|xv) view-output "$@";;
+	xzip|xz) create-zip "$@";;
+	xzip-loop|xzl) zip-loop "$@";;
+	xzip-loop-loop|xzL) never-fail-zip-loop "$@";;
 	xhelp|xh) print-help "$@";;
 	x) echo "Pass a command: {$(list)}";;
     esac
