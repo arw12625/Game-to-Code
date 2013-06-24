@@ -16,6 +16,7 @@ EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
 BROWSER=${BROWSER:-firefox}
 ROOTDIR=${ROOTDIR:-.}
 OUTPUTZIP=$THISDIR/Game-to-Code.zip
+ZIP_LOOP_SLEEP=${ZIP_LOOP_SLEEP:-30m}
 if [[ -z $GITUSER ]]; then
     case ${USER,,} in
 	tanner|thobson|azunyan) GITUSER=player1537;;
@@ -268,11 +269,12 @@ function print-help() {
     sed $THISDIR/oss -ne '/^#/ { /^#!/ !p; }'
 }
 
-function create-zip() {
+function create-zip() (
     echo Creating zip file
-    zip -v $OUTPUTZIP $THISDIR/output/*
+    cd $THISDIR/output
+    zip -v $OUTPUTZIP -r ./*
     echo Finished creating zip file
-}
+)
 
 function zip-loop() {
     while true; do
@@ -281,8 +283,10 @@ function zip-loop() {
 	echo Compiling
 	oss c || break
 	oss z || break
-	echo sleeping 30m
-	sleep 30m || break
+	echo Copying zip to /www/
+	cp $OUTPUTZIP /www/download.zip
+	echo sleeping $ZIP_LOOP_SLEEP
+	sleep $ZIP_LOOP_SLEEP || break
     done
 }
 
