@@ -16,6 +16,13 @@ EDITOR="emacsclient -t" # Let's face it, you should be using this anyways :P
 BROWSER=${BROWSER:-firefox}
 ROOTDIR=${ROOTDIR:-.}
 OUTPUTZIP=$THISDIR/Game-to-Code.zip
+if [[ -z $GITUSER ]]; then
+    case ${USER,,} in
+	tanner|thobson|azunyan) GITUSER=player1537;;
+	nascar) GITUSER=Nascar;;
+	andy) GITUSER=arw12625;;
+    esac
+fi
 
 source $COLORIZE || function color-dir() { echo "$@"; }
 source $THREAD && init
@@ -262,13 +269,19 @@ function print-help() {
 }
 
 function create-zip() {
-    zip $OUTPUTZIP $THISDIR/output/*
+    echo Creating zip file
+    zip -v $OUTPUTZIP $THISDIR/output/*
+    echo Finished creating zip file
 }
 
 function zip-loop() {
     while true; do
+	echo Pulling
 	git pull || break
+	echo Compiling
 	oss c || break
+	oss z || break
+	echo sleeping 30m
 	sleep 30m || break
     done
 }
@@ -283,9 +296,29 @@ function zip-loop() {
 function never-fail-zip-loop() {
     while true; do
 	zip-loop
+	echo zip-loop died for some reason... Sleeping 5m
 	sleep 5m
     done
 }
+
+## add-git-user-to-git-config
+# add-git-user-to-git-config
+# Very hackily adds your username to your
+#+ .git/config file.  Probably shouldn't
+#+ rely on it too much.
+function add-git-user-to-git-config() {
+    cp $THISDIR/.git/{config,config.backup} 
+    sed $THISDIR/.git/config -i -e '/\[remote "origin"\]/,/\[/ s/\(url = https:\/\/\).*\(github.com*\)/\1'$GITUSER'@\2/'
+}
+
+## remove-git-user-from-git-config
+# remove-git-user-from-git-config
+# Very hackily removes your username from
+#+ .git/config.
+function remove-git-user-from-git-config() (
+    GITUSER=
+    add-git-user-to-git-config
+)
 
 function main() {
     local whatdo
@@ -302,6 +335,8 @@ function main() {
 	xls|xls) ls-tpl "$@";;
 	xview|xv) view-output "$@";;
 	xzip|xz) create-zip "$@";;
+	xadd-git|xag) add-git-user-to-git-config "$@";;
+	xrm-git|xrg) remove-git-user-from-git-config "$@";;
 	xzip-loop|xzl) zip-loop "$@";;
 	xzip-loop-loop|xzL) never-fail-zip-loop "$@";;
 	xhelp|xh) print-help "$@";;
