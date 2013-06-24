@@ -307,8 +307,10 @@ function never-fail-zip-loop() {
 #+ .git/config file.  Probably shouldn't
 #+ rely on it too much.
 function add-git-user-to-git-config() {
+    local gituser_plus_at
+    gituser_plus_at=$GITUSER${GITUSER:+@}
     cp $THISDIR/.git/{config,config.backup} 
-    sed $THISDIR/.git/config -i -e '/\[remote "origin"\]/,/\[/ s/\(url = https:\/\/\).*\(github.com*\)/\1'$GITUSER'@\2/'
+    sed $THISDIR/.git/config -i -e '/\[remote "origin"\]/,/\[/ s/\(url = https:\/\/\).*\(github.com*\)/\1'$gituser_plus_at'\2/'
 }
 
 ## remove-git-user-from-git-config
@@ -316,7 +318,7 @@ function add-git-user-to-git-config() {
 # Very hackily removes your username from
 #+ .git/config.
 function remove-git-user-from-git-config() (
-    GITUSER=
+    export GITUSER=
     add-git-user-to-git-config
 )
 
