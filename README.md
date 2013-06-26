@@ -31,5 +31,5 @@ If you are on linux or OS X
     firefox output/index.html
 
 
-If you are on windows, run download.bat, which will download cygwin and its dependencies, which will take some time, then it will launch it for you to install.
+If you are on windows, run download.bat as administrator, which will download cygwin and its dependencies, which will take some time, then it will launch it for you to install.
 This process is lengthy, so please be prepared to wait a decent chunk of time, so in the meantime you can just use http://www.game-to-code.us/online
