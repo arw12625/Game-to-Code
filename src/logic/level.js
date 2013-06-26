@@ -1,6 +1,6 @@
 var boxer = new Image();
 boxer.src = "images/boxer.png";
-boxer.onload = function() {drawopp();}
+boxer.onload = function() { drawopp() };
 var opp_block = new Image();
 opp_block.src = "images/opp_block.png";
 var opp_punch = new Image();
@@ -12,6 +12,7 @@ usr_punch.src = "images/usr_punch.png";
 
 var done = true;
 var isRunning = false;
+var hasPressedStop = false;
 function runcode() {
 	if(!isRunning) {
 		isRunning = true;
@@ -57,12 +58,12 @@ function iterate(n, code, score) {
 	}
 }
 
-function  drawopp() {
+function drawopp() {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	ctx.drawImage(boxer, 0, 0);	
 }
-function  drawopploc(opp_state, opp_loc) {
+function drawopploc(opp_state, opp_loc) {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var block = opp_state == 'block' ? opp_block : opp_punch;
@@ -72,7 +73,7 @@ function  drawopploc(opp_state, opp_loc) {
 		ctx.drawImage(block, 270, 180);
 	}
 }
-function  drawusrloc(usr_state, usr_loc) {
+function drawusrloc(usr_state, usr_loc) {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var block = usr_state == 'block' ? usr_block : usr_punch;
@@ -82,7 +83,7 @@ function  drawusrloc(usr_state, usr_loc) {
 		ctx.drawImage(block, 270, 320);
 	}
 }
-function  drawscore(score) {
+function drawscore(score) {
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	ctx.fillStyle = "rgb(255, 255, 255)";

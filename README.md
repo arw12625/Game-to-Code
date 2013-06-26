@@ -5,9 +5,20 @@ Brief Summary
 
 Game to Code is a project designed to increase understanding of computers and computer programming through the novel use of computer games.
 
-This game was designed by Farragut High School TSA, to ease the difficulty of learning programming. The game goes step by step to teach the parts, data structure, and sequences that a computer goes through to process information.
+Millions of people are "plagued" by the difficulties of using computers because they haven't learned how to actually use them.  
+
+This game was designed by our TSA chapter, to ease the difficulty of learning programming. The game goes step by step to teach the parts, data structure, and sequences that a computer goes through to process information.
 
 Licensing
+
+How to run
+==========
+
+Blockly requires a standards-compliant, HTML5 web browser in order to run.  Browsers that work on the local harddrive are:
+
+* Firefox (tested as of 25 June 2013)
+
+* 
 
 **TODO**
 
@@ -19,17 +30,11 @@ The blockly libaries will not work in Internet Explorer 1-9 due to the lack of H
 
 ## Instructions to get started
 
-If you are on linux or OS X
-
     git clone https://github.com/arw12625/Game-to-Code.git
     cd Game-to-Code
     git submodule init
     git submodule update
     source oss install
     oss compile             # See note 1
-    # open output/index.html in a browser, for example:
-    firefox output/index.html
-
-
-If you are on windows, run download.bat as administrator, which will download cygwin and its dependencies, which will take some time, then it will launch it for you to install.
-This process is lengthy, so please be prepared to wait a decent chunk of time, so in the mean time you can just use http://www.game-to-code.us/online
+    oss view                # Open the program in $BROWSER, defaults to firefox
+    

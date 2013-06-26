@@ -1,11 +1,29 @@
-.#!template logic/language.js
-# ^ the above line would not have a . in front 
-#+ of it if you were actually making a new level
-#+ (delete these lines, too, for good measure)
-#REPLACE: newtemplate with yourlevedirectory
-#+ this is the location it will output your new file.
+#!template intro-to-blockly/language.js
 
-#REPLACE: the whole file is for your javascript
+Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
-#REPLACE: at the end is where you put any extra, common blocks
+var ORDERS = [['First', 'expect("none") && supply("one")'],
+	      ['Second', 'expect("one") && supply("two")'],
+	      ['Third', 'expect("two") && supply("three")']];
+
+Blockly.Language.gtc_order = {
+    category: "Game-to-Code",
+    init: function() {
+	this.setColour(160);
+	this.appendDummyInput()
+	    .appendTitle('This should be ')
+	    .appendTitle(new Blockly.FieldDropdown(ORDERS), 'ORDER');
+	this.setInputsInline(true);
+	this.setNextStatement(true);
+	this.setPreviousStatement(true);
+	this.setTooltip("Make sure these are in order");
+    }
+};
+
+Blockly.JavaScript.gtc_order = function() {
+    var order = this.getTitleValue('ORDER');
+    var code = order + ";\n";
+    return code;
+};
+
 {% cat javascript/blockly_if.js %}

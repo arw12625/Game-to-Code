@@ -1,20 +1,11 @@
-.#!template newtemplate/level.html
-# ^ the above line would not have a . in front 
-#+ of it if you were actually making a new level
-#+ (delete these lines, too, for good measure)
-#REPLACE: newtemplate/level.html with <yourlevedir>/level.html
-#+ this is the location it will output your new file.
+#!template intro-to-blockly/level.html
 
-#REPLACE: the title of your level
 {= L_TITLE =}
-An example title!
+Introduction to Blockly
 {==}
 
-#REPLACE: Short description of the actual level (not 
-#+ the introduction to the concept) 
 {= L_DESC =}
-<p>&nbsp&nbsp&nbsp&nbsp&nbsp blah blah, you will use blocks and make stuff do things, weeeeee</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this level, you will place several blocks together to get a feel for how Blockly works.  One section will require you to place several blocks in order ("first", "second", "third") while another has you do a simple If Then Else statement.  On the left is an example of how your code should look.</p>
 {==}
 
-#REPLACE: newtemplate -> the level's directory
-{% L_DIR=newtemplate include level.tpl %}
+{% L_DIR=intro-to-blockly include level.tpl %}
