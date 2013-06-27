@@ -30,6 +30,8 @@ The blockly libaries will not work in Internet Explorer 1-9 due to the lack of H
 
 ## Instructions to get started
 
+If you are on Linux or OS X
+
     git clone https://github.com/arw12625/Game-to-Code.git
     cd Game-to-Code
     git submodule init
@@ -38,3 +40,7 @@ The blockly libaries will not work in Internet Explorer 1-9 due to the lack of H
     oss compile             # See note 1
     oss view                # Open the program in $BROWSER, defaults to firefox
     
+    
+    
+-If you are on windows, run download.bat as administrator, which will download cygwin and its dependencies, which will take some time, then it will launch it for you to install.
+-This process is lengthy, so please be prepared to wait a decent chunk of time, so in the mean time you can just use http://www.game-to-code.us/online
