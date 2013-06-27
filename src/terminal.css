@@ -66,6 +66,11 @@ a:active, a:hover
 	border-width:6px;
 	border-color:#777777;
 }
+#GTC_Logo
+{
+    margin-left: auto;
+    margin-right: auto;
+}
 #text
 {
 	margin-left:auto;

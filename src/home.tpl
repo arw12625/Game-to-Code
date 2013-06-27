@@ -15,9 +15,9 @@ lemonade:Lemonade Simulation
 {==}
 
 {= CONTENT =}
-<h1 class="title">Game to Code</h1>
-<br />
+<center><img src="images/GTC-Logo.png" alt="Our project's logo" /></center>
 <div id="text">
+  <br />
   <p class="dir">#!/usr/bin/gtc>_ Welcome to Game to Code!</p>
   <p>Game to Code is a project designed to increase understanding of computers
     and computer programmaing through the novel use of computer games.
@@ -38,8 +38,9 @@ lemonade:Lemonade Simulation
     {% done %}
   </ul>
   <br />
-  <p>
-    If you wish to contribute, please visit our <a href="http://github.com/arw12625/Game-to-Code">github repository,</a>
+  <p>If you're browsing this on your local harddrive and wish to view it online, our website is located at <a href="http://game-to-code.us">http://game-to-code.us</a></p>
+  <br />
+  <p>If you wish to contribute, please visit our <a href="http://github.com/arw12625/Game-to-Code">github repository,</a>
     use this <a href="#" onclick="loadintro('template')">template</a>, or send an email to our <a href="mailto:awintenb@gmail.com?Subject=Possible%20Contributor">developers</a></p>
 </div>
 {==}
