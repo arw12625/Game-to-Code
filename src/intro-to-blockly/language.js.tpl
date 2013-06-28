@@ -2,9 +2,9 @@
 
 Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
-var ORDERS = [['First', 'expect("none") && supply("one")'],
-	      ['Second', 'expect("one") && supply("two")'],
-	      ['Third', 'expect("two") && supply("three")']];
+var ORDERS = [['First', '1'],
+	      ['Second', '2'],
+	      ['Third', '3']]
 
 Blockly.Language.gtc_order = {
     category: "Game-to-Code",
@@ -22,8 +22,19 @@ Blockly.Language.gtc_order = {
 
 Blockly.JavaScript.gtc_order = function() {
     var order = this.getTitleValue('ORDER');
-    var code = order + ";\n";
-    return code;
+    console.log("order is: " +  order);
+    switch (order) {
+    case '1':
+	var code = "expect('none') && supply('one')";
+	break;
+    case '2':
+	var code = "expect('one') && supply('two')";
+	break;
+    case '3':
+	var code = "expect('two') && supply('three')";
+	break;
+    }
+    return code + ";\n";
 };
 
 {% cat javascript/blockly_if.js %}

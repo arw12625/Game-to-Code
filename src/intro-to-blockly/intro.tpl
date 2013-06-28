@@ -1,8 +1,4 @@
 #!template intro-to-blockly/index.html
-# ^ the above line would not have a . in front 
-#+ of it if you were actually making a new level
-#+ (delete these lines, too, for good measure)
-
 
 {= L_TITLE =}
 Introduction to Blockly
@@ -27,7 +23,9 @@ two
 <p>Some blocks have a dropdown list to specify what action to take.  For example, with this image, instead of having two separate blocks (Block Left and Block Right), there's only the one Block Left/Right.  To activate the dropdown, just click on the light green area, then select your choice and the menu will go away.  If you accidentally clicked on one, you can click anywhere off the block to close it.</p>
 <img src="images/is-blocking.png" alt="a question block" class="par_image bordered" />
 <p>The next block type is the "question" block, which gives you information about the environment.  With this block (which came from the first level), it is simply asking whether the opponent boxer "is blocking [on the] left [side]".  This one also has a dropdown menu to choose which side it is asking about.  With these, it's important to notice the shape of the block on the left.  The puzzle-piece shaped tab fits into a similarly shaped hole in another block (usually a "control" block, though there are others that match it).</p>
-
+<p>The final block is the "control" block.  These include the famous "if" statement, which takes a question and chooses an appropriate action.  For example, if you had a question of "is it raining?" and an action of "bring an umbrella", then an if statement allows you to join these together in the form "if [it is raining], then [bring an umbrella]".  Several other blocks like this exist, such as the "while" block, which enables the computer to <i>loop</i> or execute the same tasks over and over.  These blocks give you the most power of the computer, because computers are best at executing many things continually and saving the programmer time.</p>
+<img src="images/if-block.png" alt="an if block" class="par_image bordered" />
+<p>The block to the left is the If statement.  Notice that it has a plus symbol next to it, this allows you to construct more complex If statements which can more accurately model certain actions and chain conditions. When you open up the plus menu, you can drag blocks to the bottom of the if statement, and then "throw" them away by dragging to the left, dark grey menu.</p>
 <br>
 {==}
 
