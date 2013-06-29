@@ -18,13 +18,11 @@ Blockly requires a standards-compliant, HTML5 web browser in order to run.  Brow
 
 * Firefox (tested as of 25 June 2013)
 
-* 
-
 **TODO**
 
 Bugs
 
-The blockly libraries will not work in Chrome. The failure of chrome to work is a bug due to the security that chrome has built in that does not allow direct loading of trees.
+The blockly libraries will not work in Chrome locally. The failure of chrome to work is a bug due to the security that chrome has built in that does not allow direct loading of trees.
 
 The blockly libaries will not work in Internet Explorer 1-9 due to the lack of HTML 5 compliance.(Tested as of 3/14/2013)
 
